@@ -28,3 +28,15 @@ jobs:
         cache: 'npm'
     - run: npm run build --if-present
     - run: npm run run
+    - name: Get Secrets from RevBits PAM
+      id: get-secrets
+      uses: revbits-github-actions
+      with:
+        pam_hostname: ${{ secrets.PAM_HOSTNAME }}
+        api_key: ${{ secrets.API_KEY }}
+        pam_secret_keys: ${{ secrets.SECRET_KEYS }}
+    - name: Display Outputs
+      run: |
+        echo "Hostname: ${{ steps.get-secrets.outputs.pam_hostname }}"
+        echo "API Key: ${{ steps.get-secrets.outputs.api_key }}"
+        echo "Secret Keys: ${{ steps.get-secrets.outputs.pam_secret_keys }}"
